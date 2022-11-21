@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="RMSModelStoreContainer" CdmEntityContainer="RMSEntities2">
+    <EntitySetMapping Name="Foods">
+      <EntityTypeMapping TypeName="RMSModel.Food">
+        <MappingFragment StoreEntitySet="Foods">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="preservedays" ColumnName="preservedays" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Restaurants">
+      <EntityTypeMapping TypeName="RMSModel.Restaurant">
+        <MappingFragment StoreEntitySet="Restaurants">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RsFoods">
+      <EntityTypeMapping TypeName="RMSModel.RsFood">
+        <MappingFragment StoreEntitySet="RsFood">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Restaurantid" ColumnName="Restaurantid" />
+          <ScalarProperty Name="Foodid" ColumnName="Foodid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

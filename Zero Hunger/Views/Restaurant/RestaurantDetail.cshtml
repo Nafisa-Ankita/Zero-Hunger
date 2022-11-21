@@ -1,0 +1,26 @@
+﻿@model MidAssignment.Models.Restaurant
+
+@{
+    ViewBag.Title = "RestaurantDetail";
+}
+
+<h2>RestaurantDetail</h2>
+
+<div>
+    <h4>Restaurant</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Restaurant Name")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "UpdateRestaurant", "Restaurant", new { id = Model.id }, new{@class= "btn btn-primaty"}) |
+    @Html.ActionLink("Cancel", "DisplayRestaurant", "Restaurant",new { @class="btn btn-danger"} )
+</p>

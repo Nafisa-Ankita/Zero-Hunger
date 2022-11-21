@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Food">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="preservedays" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="RsFoods" Relationship="Self.FK_RsFood_Foods" FromRole="Foods" ToRole="RsFood" />
+  </EntityType>
+  <EntityType Name="Restaurant">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="RsFoods" Relationship="Self.FK_RsFood_Restaurants" FromRole="Restaurants" ToRole="RsFood" />
+  </EntityType>
+  <EntityType Name="RsFood">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Restaurantid" Type="Int32" Nullable="false" />
+    <Property Name="Foodid" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Food" Relationship="Self.FK_RsFood_Foods" FromRole="RsFood" ToRole="Foods" />
+    <NavigationProperty Name="Restaurant" Relationship="Self.FK_RsFood_Restaurants" FromRole="RsFood" ToRole="Restaurants" />
+  </EntityType>
+  <Association Name="FK_RsFood_Foods">
+    <End Role="Foods" Type="Self.Food" Multiplicity="1" />
+    <End Role="RsFood" Type="Self.RsFood" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Foods">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="RsFood">
+        <PropertyRef Name="Foodid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RsFood_Restaurants">
+    <End Role="Restaurants" Type="Self.Restaurant" Multiplicity="1" />
+    <End Role="RsFood" Type="Self.RsFood" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurants">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="RsFood">
+        <PropertyRef Name="Restaurantid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="RMSEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Foods" EntityType="Self.Food" />
+    <EntitySet Name="Restaurants" EntityType="Self.Restaurant" />
+    <EntitySet Name="RsFoods" EntityType="Self.RsFood" />
+    <AssociationSet Name="FK_RsFood_Foods" Association="Self.FK_RsFood_Foods">
+      <End Role="Foods" EntitySet="Foods" />
+      <End Role="RsFood" EntitySet="RsFoods" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RsFood_Restaurants" Association="Self.FK_RsFood_Restaurants">
+      <End Role="Restaurants" EntitySet="Restaurants" />
+      <End Role="RsFood" EntitySet="RsFoods" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

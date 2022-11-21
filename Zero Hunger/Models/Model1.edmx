@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Foods">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="preservedays" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Restaurants">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RsFood">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Restaurantid" Type="int" Nullable="false" />
+          <Property Name="Foodid" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_RsFood_Foods">
+          <End Role="Foods" Type="Self.Foods" Multiplicity="1" />
+          <End Role="RsFood" Type="Self.RsFood" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Foods">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RsFood">
+              <PropertyRef Name="Foodid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RsFood_Restaurants">
+          <End Role="Restaurants" Type="Self.Restaurants" Multiplicity="1" />
+          <End Role="RsFood" Type="Self.RsFood" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RsFood">
+              <PropertyRef Name="Restaurantid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RMSModelStoreContainer">
+          <EntitySet Name="Foods" EntityType="Self.Foods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Restaurants" EntityType="Self.Restaurants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RsFood" EntityType="Self.RsFood" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_RsFood_Foods" Association="Self.FK_RsFood_Foods">
+            <End Role="Foods" EntitySet="Foods" />
+            <End Role="RsFood" EntitySet="RsFood" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RsFood_Restaurants" Association="Self.FK_RsFood_Restaurants">
+            <End Role="Restaurants" EntitySet="Restaurants" />
+            <End Role="RsFood" EntitySet="RsFood" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Food">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="preservedays" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="RsFoods" Relationship="Self.FK_RsFood_Foods" FromRole="Foods" ToRole="RsFood" />
+        </EntityType>
+        <EntityType Name="Restaurant">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="RsFoods" Relationship="Self.FK_RsFood_Restaurants" FromRole="Restaurants" ToRole="RsFood" />
+        </EntityType>
+        <EntityType Name="RsFood">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Restaurantid" Type="Int32" Nullable="false" />
+          <Property Name="Foodid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Food" Relationship="Self.FK_RsFood_Foods" FromRole="RsFood" ToRole="Foods" />
+          <NavigationProperty Name="Restaurant" Relationship="Self.FK_RsFood_Restaurants" FromRole="RsFood" ToRole="Restaurants" />
+        </EntityType>
+        <Association Name="FK_RsFood_Foods">
+          <End Role="Foods" Type="Self.Food" Multiplicity="1" />
+          <End Role="RsFood" Type="Self.RsFood" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Foods">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RsFood">
+              <PropertyRef Name="Foodid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RsFood_Restaurants">
+          <End Role="Restaurants" Type="Self.Restaurant" Multiplicity="1" />
+          <End Role="RsFood" Type="Self.RsFood" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RsFood">
+              <PropertyRef Name="Restaurantid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RMSEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Foods" EntityType="Self.Food" />
+          <EntitySet Name="Restaurants" EntityType="Self.Restaurant" />
+          <EntitySet Name="RsFoods" EntityType="Self.RsFood" />
+          <AssociationSet Name="FK_RsFood_Foods" Association="Self.FK_RsFood_Foods">
+            <End Role="Foods" EntitySet="Foods" />
+            <End Role="RsFood" EntitySet="RsFoods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RsFood_Restaurants" Association="Self.FK_RsFood_Restaurants">
+            <End Role="Restaurants" EntitySet="Restaurants" />
+            <End Role="RsFood" EntitySet="RsFoods" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RMSModelStoreContainer" CdmEntityContainer="RMSEntities2">
+          <EntitySetMapping Name="Foods">
+            <EntityTypeMapping TypeName="RMSModel.Food">
+              <MappingFragment StoreEntitySet="Foods">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="preservedays" ColumnName="preservedays" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Restaurants">
+            <EntityTypeMapping TypeName="RMSModel.Restaurant">
+              <MappingFragment StoreEntitySet="Restaurants">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RsFoods">
+            <EntityTypeMapping TypeName="RMSModel.RsFood">
+              <MappingFragment StoreEntitySet="RsFood">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Restaurantid" ColumnName="Restaurantid" />
+                <ScalarProperty Name="Foodid" ColumnName="Foodid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

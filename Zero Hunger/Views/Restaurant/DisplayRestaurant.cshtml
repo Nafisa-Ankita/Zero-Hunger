@@ -1,0 +1,35 @@
+﻿@model IEnumerable<MidAssignment.Models.Restaurant>
+
+@{
+    ViewBag.Title = "DisplayRestaurant";
+}
+
+<h2>DisplayRestaurant</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateRestaurant", "Restaurant", new {}, new {@class = "btn btn-primary"})
+</p>
+<table class="table">
+    <tr class="success">
+        <th>
+            @Html.DisplayName("Restaurant Name")
+        </th>
+        <th>
+            @Html.DisplayName("Actions")
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "UpdateRestaurant", "Restaurant", new { id=item.id }, new {@class="btn btn-primary"}) |
+            @Html.ActionLink("Details", "Details", new { id=item.id },new { @class = "btn btn-success" }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>
